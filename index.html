@@ -30,7 +30,7 @@
     </style>
 </head>
 <body>
-    <h1>Timer</h1>
+    <h1>Chimer</h1>
     <select id="timerInput">
         <!-- Options for multiples of 10 -->
     </select>
@@ -53,12 +53,11 @@
             if (remainingTime <= 0) {
                 playChime();
                 remainingTime = parseInt(document.getElementById('timerInput').value); // Reset remaining time
-                cancelAnimationFrame(requestId);
+                startTimestamp = performance.now(); // Reset start time
                 updateTimerDisplay(remainingTime);
-            } else {
-                updateTimerDisplay(remainingTime);
-                requestId = requestAnimationFrame(updateTimer);
             }
+            updateTimerDisplay(remainingTime);
+            requestId = requestAnimationFrame(updateTimer);
         }
 
         function updateTimerDisplay(remainingTime) {
