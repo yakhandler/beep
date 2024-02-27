@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chime Player</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #00a6ed;
+            color: #fff;
+            border: none;
+            border-radius: 10%;
+        }
+        .button:hover {
+            background-color: #007bb3;
+        }
+        .timer {
+            font-size: 24px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Chime Player</h1>
+    <select id="timerInput">
+        <!-- Options for multiples of 10 -->
+    </select>
+    <button id="controlButton" class="button">▶️</button>
+    <div id="timerDisplay" class="timer">5.00</div>
+    
+    <script src="timerScript.js"></script>
+    <script>
+        // Populate the select element with formatted options
+        var selectElement = document.getElementById('timerInput');
+        for (var i = 1; i <= 12; i++) { // Loop from 1 to 12 (multiples of 10 up to 120)
+            var option = document.createElement('option');
+            var value = i * 10;
+            var text = formatTime(value);
+            option.value = value;
+            option.text = text;
+            selectElement.appendChild(option);
+        }
+
+        // Function to format time display
+        function formatTime(seconds) {
+            if (seconds === 60) {
+                return "1 min";
+            } else if (seconds === 120) {
+                return "2 min";
+            } else if (seconds > 60 && seconds < 120) {
+                return "1 min & " + (seconds - 60) + " sec";
+            } else {
+                return seconds + " sec";
+            }
+        }
+    </script>
+</body>
+</html>
+
