@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chime Player</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #00a6ed;
+            color: #fff;
+            border: none;
+            border-radius: 10%;
+        }
+        .button:hover {
+            background-color: #007bb3;
+        }
+        .timer {
+            font-size: 24px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Chime Player</h1>
+    <select id="timerInput">
+        <!-- Options for multiples of 10 -->
+    </select>
+    <button id="controlButton" class="button">▶️</button>
+    <div id="timerDisplay" class="timer">5.00</div>
+    
+    <script>
+        var audio = new Audio('beep.wav');
+
+        var intervalId;
+        var timerDisplay = document.getElementById('timerDisplay');
+
+        function playChime() {
+            audio.play();
+        }
+
+        function updateTimerDisplay(remainingTime) {
+            timerDisplay.textContent = remainingTime.toFixed(2);
+        }
+
+        document.getElementById('controlButton').addEventListener('click', function() {
+            var remainingTime = parseInt(document.getElementById('timerInput').value); // Initial time in seconds
+
+            if (intervalId) {
+                clearInterval(intervalId);
+                intervalId = null;
+                this.textContent = '▶️';
+                updateTimerDisplay(remainingTime);
+            } else {
+                playChime(); // Play chime immediately upon starting
+                updateTimerDisplay(remainingTime);
+                intervalId = setInterval(function() {
+                    remainingTime -= 0.01; // Decrease remaining time by hundredth of a second
+                    if (remainingTime <= 0) {
+                        playChime();
+                        remainingTime = parseInt(document.getElementById('timerInput').value); // Reset remaining time
+                        updateTimerDisplay(remainingTime);
+                    }
+                    updateTimerDisplay(remainingTime);
+                }, 10); // Update every hundredth of a second (10 milliseconds)
+                this.textContent = '⏸️';
+            }
+        });
+
+        // Populate the select element with formatted options
+        var selectElement = document.getElementById('timerInput');
+        for (var i = 1; i <= 12; i++) { // Loop from 1 to 12 (multiples of 10 up to 120)
+            var option = document.createElement('option');
+            var value = i * 10;
+            var text = formatTime(value);
+            option.value = value;
+            option.text = text;
+            selectElement.appendChild(option);
+        }
+
+        // Function to format time display
+        function formatTime(seconds) {
+            if (seconds === 60) {
+                return "1 min";
+            } else if (seconds === 120) {
+                return "2 min";
+            } else if (seconds > 60 && seconds < 120) {
+                return "1 min & " + (seconds - 60) + " sec";
+            } else {
+                return seconds + " sec";
+            }
+        }
+    </script>
+</body>
+</html>
