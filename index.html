@@ -30,13 +30,14 @@
     </style>
 </head>
 <body>
-    <h1>Chimer</h1>
+    <h1>Chimers</h1>
     <select id="timerInput">
         <!-- Options for multiples of 10 -->
     </select>
     <button id="controlButton" class="button">▶️</button>
     <div id="timerDisplay" class="timer">10.0</div>
-    
+    <audio preload="auto" id="audio" src="beep.wav"></audio>
+
     <script>
         var audio = new Audio('beep.wav');
         var startTimestamp;
